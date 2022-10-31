@@ -18,8 +18,4 @@
     <ProjectReference Include="..\Brainbox.Domain\Brainbox.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
 </Project>
