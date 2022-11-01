@@ -19,6 +19,7 @@ namespace Brainbox.Web.Controllers
         [ProducesResponseType(typeof(List<User>), StatusCodes.Status200OK)]
         public IActionResult GetAll()
         {
+            //Get all users from database
             return Ok(_db.GetAll());
         }
 
@@ -28,6 +29,7 @@ namespace Brainbox.Web.Controllers
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         public IActionResult Create(User user)
         {
+            //Create a user
             bool alreadyExists = _db.Add(user, x => x.Email == user.Email);
             if (!alreadyExists)
             {
@@ -44,6 +46,7 @@ namespace Brainbox.Web.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult Update(int id, User user)
         {
+            //Edit a single user
             if (id != user.UserId) return BadRequest("User does not exist");
 
             _db.Update(user);
@@ -57,6 +60,7 @@ namespace Brainbox.Web.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult Delete(int id)
         {
+            //Delete a single user
             var userToDelete = _db.GetFirstOrDefault(x => x.UserId == id);
             if (userToDelete == null) return NotFound();
 

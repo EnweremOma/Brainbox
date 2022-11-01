@@ -18,6 +18,7 @@ namespace Brainbox.Web.Controllers
         [HttpGet]
         public IEnumerable<ProductCategory> GetAll()
         {
+            //Get all product categories
             return _db.GetAll();
         }
 
@@ -26,6 +27,7 @@ namespace Brainbox.Web.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult GetById(int id)
         {
+            //Get a single product category by id
             var productCategory = _db.GetFirstOrDefault(x => x.Id == id);
             return productCategory == null ? NotFound() : Ok(productCategory);
         }
@@ -36,6 +38,7 @@ namespace Brainbox.Web.Controllers
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         public IActionResult Create(ProductCategory productCategory)
         {
+            //Create a product category
             bool alreadyExists = _db.Add(productCategory, x => x.Name == productCategory.Name);
             if (!alreadyExists)
             {
@@ -53,6 +56,7 @@ namespace Brainbox.Web.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult Update(int id, ProductCategory productCategory)
         {
+            //Edit a single product category
             if (id != productCategory.Id) return BadRequest("Something went wrong pleas try again later.");
 
             _db.Update(productCategory);
@@ -66,6 +70,7 @@ namespace Brainbox.Web.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult Delete(int id)
         {
+            //Delete a single product category
             var productCategoryToDelete = _db.GetFirstOrDefault(x => x.Id == id);
             if (productCategoryToDelete == null) return NotFound();
 

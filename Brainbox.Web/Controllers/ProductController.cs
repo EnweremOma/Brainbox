@@ -19,6 +19,7 @@ namespace Brainbox.Web.Controllers
         [ProducesResponseType(typeof(List<Product>), StatusCodes.Status200OK)]
         public IActionResult GetAll()
         {
+            // Get all product items from the database
             return Ok(_db.GetAll());
         }
 
@@ -27,6 +28,7 @@ namespace Brainbox.Web.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult GetById(int id)
         {
+            // Get a product by Product id 
             var product =  _db.GetFirstOrDefault(x=>x.Id == id);
             return product == null ? NotFound() : Ok(product);
         }
@@ -37,6 +39,7 @@ namespace Brainbox.Web.Controllers
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         public IActionResult Create(Product product)
         {
+            //Create a new product
             bool alreadyExists = _db.Add(product, x => x.Name == product.Name);
             if (!alreadyExists)
             {
@@ -53,6 +56,7 @@ namespace Brainbox.Web.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult Update(int id, Product product)
         {
+            //Edit a single product item
             if (id != product.Id) return BadRequest();
 
             _db.Update(product);
@@ -66,6 +70,7 @@ namespace Brainbox.Web.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult Delete(int id)
         {
+            //Delete a single product item
             var productToDelete =  _db.GetFirstOrDefault(x => x.Id == id);
             if (productToDelete == null) return NotFound();
 

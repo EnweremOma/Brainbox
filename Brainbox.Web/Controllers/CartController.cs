@@ -18,19 +18,21 @@ namespace Brainbox.Web.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-
+            //Get all cart items
             return Ok(_cartRepository.GetAllCarts());
         }
 
         [HttpGet("id")]
         public IActionResult GetCartByUserId(int id)
         {
+            //Get a single cart item by a user id
             return Ok(_cartRepository.GetAllCartByUserId(id));
         }
 
         [HttpGet("userId")]
         public IActionResult GetCartTotal(int id)
         {
+            //Get the sum of cart items
             return Ok(_cartRepository.CartTotal(id));
         }
 
@@ -40,6 +42,7 @@ namespace Brainbox.Web.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public IActionResult Create(Cart cart)
         {
+            //Add item to a cart
             var addCarts = _cartRepository.AddToCart(cart);
 
             if (addCarts.Equals("55"))
@@ -60,6 +63,7 @@ namespace Brainbox.Web.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult Delete(int id)
         {
+            //Delete Item from a cart
             var cartToDelete = _cartRepository.GetFirstOrDefault(x => x.Id == id);
             if (cartToDelete == null) return NotFound();
 
