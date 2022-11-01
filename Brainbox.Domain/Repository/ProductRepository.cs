@@ -25,5 +25,6 @@ namespace Brainbox.Domain.Repository
         {
             _db.Products.Update(obj);
         }
+
     }
 }

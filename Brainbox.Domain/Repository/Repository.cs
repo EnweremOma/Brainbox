@@ -21,9 +21,15 @@ namespace Brainbox.Domain.Repository
             this.dbSet=_db.Set<T>();
         }
 
-        public void Add(T entity)
+        public bool Add(T entity, Expression<Func<T, bool>> filter)
         {
-            dbSet.Add(entity);
+            var alreadyExists = dbSet.Where(filter);
+            if (!alreadyExists.Any())
+            {
+                dbSet.Add(entity);
+                return false;
+            }
+            return true;
         }
 
         public IEnumerable<T> GetAll()

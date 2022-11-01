@@ -16,9 +16,9 @@ namespace Brainbox.Domain.Repository
 		{
 			_db = db;
 		}
-        public void Save()
+        public int Save()
         {
-            _db.SaveChanges();
+           return _db.SaveChanges();
         }
 
         public void Update(ProductCategory obj)

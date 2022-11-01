@@ -1,61 +1,61 @@
 ﻿using Brainbox.Domain.Models;
-using Brainbox.Domain.Repository;
 using Brainbox.Domain.Repository.IRepository;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Brainbox.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController : Controller
+    public class ProductCategoryController : Controller
     {
-        private readonly IProductRepository _db;
-        public ProductController(IProductRepository db)
+        private readonly IProductCategoryRepository _db;
+        public ProductCategoryController(IProductCategoryRepository db)
         {
             _db = db;
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(List<Product>), StatusCodes.Status200OK)]
-        public IActionResult GetAll()
+        public IEnumerable<ProductCategory> GetAll()
         {
-            return Ok(_db.GetAll());
+            return _db.GetAll();
         }
 
         [HttpGet("id")]
-        [ProducesResponseType(typeof(Product), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ProductCategory), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult GetById(int id)
         {
-            var product =  _db.GetFirstOrDefault(x=>x.Id == id);
-            return product == null ? NotFound() : Ok(product);
+            var productCategory = _db.GetFirstOrDefault(x => x.Id == id);
+            return productCategory == null ? NotFound() : Ok(productCategory);
         }
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
-        public IActionResult Create(Product product)
+        public IActionResult Create(ProductCategory productCategory)
         {
-            bool alreadyExists = _db.Add(product, x => x.Name == product.Name);
+            bool alreadyExists = _db.Add(productCategory, x => x.Name == productCategory.Name);
             if (!alreadyExists)
             {
                 if (_db.Save() <= 0)
-                    return BadRequest("Something went wrong pleas try again later.");
+                    return BadRequest();
 
-                return CreatedAtAction(nameof(GetAll), new { id = product.Id }, product);
+                return CreatedAtAction(nameof(GetAll), new { id = productCategory.Id }, productCategory);
             }
-              return Conflict("Product already exists.");
+            return Conflict();
+
         }
 
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public IActionResult Update(int id, Product product)
+        public IActionResult Update(int id, ProductCategory productCategory)
         {
-            if (id != product.Id) return BadRequest();
+            if (id != productCategory.Id) return BadRequest();
 
-            _db.Update(product);
+            _db.Update(productCategory);
             _db.Save();
 
             return NoContent();
@@ -66,10 +66,10 @@ namespace Brainbox.Web.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult Delete(int id)
         {
-            var productToDelete =  _db.GetFirstOrDefault(x => x.Id == id);
-            if (productToDelete == null) return NotFound();
+            var productCategoryToDelete = _db.GetFirstOrDefault(x => x.Id == id);
+            if (productCategoryToDelete == null) return NotFound();
 
-            _db.Remove(productToDelete);
+            _db.Remove(productCategoryToDelete);
             _db.Save();
 
             return NoContent();

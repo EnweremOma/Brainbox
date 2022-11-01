@@ -11,7 +11,7 @@ namespace Brainbox.Domain.Repository.IRepository
     {
         T GetFirstOrDefault(Expression<Func<T, bool>> filter);
         IEnumerable<T> GetAll();
-        void Add(T entity);
+        bool Add(T entity, Expression<Func<T, bool>> filter);
         void Remove(T entity);
         void RemoveRange(IEnumerable<T> entity);
        
