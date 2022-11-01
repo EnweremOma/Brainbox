@@ -16,26 +16,40 @@ namespace Brainbox.Web.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Cart> GetAll()
+        public IActionResult GetAll()
         {
-            return _cartRepository.GetAll();
+
+            return Ok(_cartRepository.GetAllCarts());
+        }
+
+        [HttpGet("id")]
+        public IActionResult GetCartByUserId(int id)
+        {
+            return Ok(_cartRepository.GetAllCartByUserId(id));
+        }
+
+        [HttpGet("userId")]
+        public IActionResult GetCartTotal(int id)
+        {
+            return Ok(_cartRepository.CartTotal(id));
         }
 
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         public IActionResult Create(Cart cart)
         {
-            var carts = _cartRepository.AddToCart(cart);
+            var addCarts = _cartRepository.AddToCart(cart);
 
-            if (cart.Equals("55"))
+            if (addCarts.Equals("55"))
                 return NoContent();
 
-            if (cart.Equals("88"))
+            if (addCarts.Equals("88"))
                 return BadRequest("Quantity exceeds avaliable product");
             
-            if (cart.Equals("00"))
-                return Ok();
+            if (addCarts.Equals("00"))
+                return Ok(cart);
 
             return BadRequest("Oops! something went wrong.");
 

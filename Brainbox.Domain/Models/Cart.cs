@@ -11,7 +11,7 @@ public class Cart
     [ForeignKey("ProductId")]
     public int ProductId { get; set; }
     
-    [Range (1, 10)]
+    [Range(1, int.MaxValue, ErrorMessage = "Please enter a value bigger than {1}")]
     public int Qty { get; set; }
     
     [ForeignKey("UserId")]
