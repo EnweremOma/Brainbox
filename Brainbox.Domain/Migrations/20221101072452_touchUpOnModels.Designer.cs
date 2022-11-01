@@ -4,6 +4,7 @@ using Brainbox.Domain.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Brainbox.Domain.Migrations
 {
     [DbContext(typeof(BrainboxDBContext))]
-    partial class BrainboxDBContextModelSnapshot : ModelSnapshot
+    [Migration("20221101072452_touchUpOnModels")]
+    partial class touchUpOnModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

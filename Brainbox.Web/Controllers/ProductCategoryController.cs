@@ -40,11 +40,11 @@ namespace Brainbox.Web.Controllers
             if (!alreadyExists)
             {
                 if (_db.Save() <= 0)
-                    return BadRequest();
+                    return BadRequest("Something went wrong pleas try again later.");
 
                 return CreatedAtAction(nameof(GetAll), new { id = productCategory.Id }, productCategory);
             }
-            return Conflict();
+            return Conflict("Product category already exists.");
 
         }
 
@@ -53,7 +53,7 @@ namespace Brainbox.Web.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult Update(int id, ProductCategory productCategory)
         {
-            if (id != productCategory.Id) return BadRequest();
+            if (id != productCategory.Id) return BadRequest("Something went wrong pleas try again later.");
 
             _db.Update(productCategory);
             _db.Save();

@@ -7,14 +7,17 @@ namespace Brainbox.Domain.Models;
 public class Cart
 {
     public int Id { get; set; }
-    public int ProductId { get; set; }
+   
     [ForeignKey("ProductId")]
-    public int Count { get; set; }
-    public int UserId { get; set; }
+    public int ProductId { get; set; }
+    
+    [Range (1, 10)]
+    public int Qty { get; set; }
+    
     [ForeignKey("UserId")]
     [ValidateNever]
-
-    public User User { get; set; }
+    public int UserId { get; set; }
+    
 
 }
 
